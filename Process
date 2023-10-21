@@ -1,0 +1,22 @@
+public class Process {
+    static int i = 0;
+    String id;
+    int burstTime;
+    Process next;
+    public Process(int bt) {
+        this.burstTime = bt;
+        this.id = "P" + i++;
+    }
+    public Process (String id, int bt) {
+        this.id = id;
+        this.burstTime = bt;
+    }
+    public Process(int bt, Process p) {
+        this.burstTime = bt;
+        this.id = "P" + i++;
+        this.next = p;
+    }
+    public String toString() {
+        return "ID: " + id + "Burst Time: " + burstTime;
+    }
+}
