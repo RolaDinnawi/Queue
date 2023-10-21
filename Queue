@@ -1,0 +1,99 @@
+public class Queue {
+    Process head;
+    public Queue() {
+    }
+    public void enqueue(Process p) {
+        Process current = head;
+        while (current.next != null) {
+            current = current.next;
+        }
+        current.next = p;
+    }
+    public void Dequeue() {
+        if (head != null) {
+            head = head.next;
+        }
+        else 
+            System.out.println("Queue is empty!");
+    }
+    public Process first() {
+        return head;
+    }
+    public int size() {
+        int size = 0;
+        Process current = head;
+        while (current != null) {
+            size++;
+            current = current.next;
+        }
+        return size;
+    }
+    public boolean isEmpty() {
+        return (head == null) ? true : false;
+    }
+    public void printQueue() {
+        Process current = head;
+        while(current != null) {
+            System.out.println(current.toString());
+        }
+    }
+    public void sortQueue(String o) {
+        Process current = head, index = null;
+        int temp;
+        String idTemp;
+        if (head == null)
+            return;
+        else {
+            if (o.equals("asc")) {
+                while (current != null) {
+                    index = current.next;
+                    while(index != null) {
+                        if (current.burstTime > index.burstTime) {
+                            temp = current.burstTime;
+                            idTemp = current.id;
+                            current.burstTime = index.burstTime;
+                            current.id = index.id;
+                            index.burstTime = temp;
+                            index.id = idTemp;
+                        }
+                        index = index.next;
+                    }
+                    current = current.next;
+                }
+            }
+            else {
+                while (current != null) {
+                    index = current.next;
+                    while(index != null) {
+                        if (current.burstTime < index.burstTime) {
+                            temp = current.burstTime;
+                            idTemp = current.id;
+                            current.burstTime = index.burstTime;
+                            current.id = index.id;
+                            index.burstTime = temp;
+                            index.id = idTemp;
+                        }
+                        index = index.next;
+                    }
+                    current = current.next;
+                }
+            }
+        }
+    }
+    public Queue roundRobinQueue(int timeSlice) {
+        Queue robin = new Queue();
+        Process current = head;
+        while(!isEmpty()) {
+            while(current != null) {
+                current.burstTime = current.burstTime - timeSlice;
+                robin.enqueue(new Process(current.id, timeSlice));
+                Dequeue();
+                if (current.burstTime > timeSlice) {
+                    enqueue(new Process(current.id, current.burstTime));
+                }
+                current = current.next;
+            }
+        }
+        return robin;
+    }
+}
